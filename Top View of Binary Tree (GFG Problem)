@@ -1,0 +1,39 @@
+class Pair{
+    Node node;
+    int height;
+    Pair(Node node , int height){
+        this.node = node;
+        this.height= height;
+    }
+}
+class Solution {
+    // Function to return a list of nodes visible from the top view
+    // from left to right in Binary Tree.
+    static ArrayList<Integer> topView(Node root) {
+        // code here
+        ArrayList<Integer> list = new ArrayList<>();
+        if(root == null)
+           return list;
+        Map<Integer , Integer > t = new TreeMap<>();
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(root , 0));
+        while(!q.isEmpty()){
+            Pair p = q.poll();
+            Node n = p.node;
+            int h = p.height;
+            
+            if(t.get(h) == null)
+               t.put(h , n.data);
+               
+            if(n.left != null)
+               q.add(new Pair(n.left , h - 1));
+            if(n.right != null)
+               q.add(new Pair(n.right , h + 1));
+               
+        }
+        for(Map.Entry<Integer, Integer> entry : t.entrySet()){
+             list.add(entry.getValue());
+        } 
+        return list;
+    }
+}
